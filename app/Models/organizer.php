@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class organizer extends Model
 {
-    use HasFactory , OnetoOneTrait;
+    use HasFactory;
+    use OnetoOneTrait;
+
     protected $fillable = [
         
         'description',

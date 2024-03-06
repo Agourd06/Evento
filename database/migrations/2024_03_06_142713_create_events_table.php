@@ -20,9 +20,11 @@ return new class extends Migration
             $table->string('date');
             $table->string('location');
             $table->string('sets');
+            $table->string('price');
+            $table->string('image');
             $table->foreignId('organizer_id')->constrained('organizers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->enum('acceptation', ['automatically','manually'])->default('automatically');
-            $table->enum('status', ['0','1'])->default('0');
+            $table->enum('status', ['0','1','2'])->default('0');
             $table->timestamps();
         });
     }

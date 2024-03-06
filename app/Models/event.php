@@ -16,6 +16,7 @@ class event extends Model
         'sets',
         'organizer_id' ,
          'acceptation',
+         'image',
     ];
 
 

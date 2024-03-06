@@ -34,6 +34,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(client::class , 'user_id');
     }
+    public function admin()
+    {
+        return $this->hasOne(admin::class , 'user_id');
+    }
 
     
 

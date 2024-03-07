@@ -7,6 +7,8 @@ module.exports = {
     "./resources/views/layouts/adminNav.blade.php",
     "./resources/views/client/client.blade.php",
     "./resources/views/client/home.blade.php",
+    "./resources/views/client/ticket.blade.php",
+    "./resources/views/client/clientTickets.blade.php",
     "./resources/views/organizer/organizer.blade.php",
     "./resources/views/organizer/reservation.blade.php",
     "./resources/views/register.blade.php",

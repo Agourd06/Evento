@@ -12,16 +12,16 @@
     <title>Document</title>
 </head>
 
-<body>
+<body >
     @include('layouts/clientNav')
 
     <!--Container-->
-    <div class="container shadow-lg mx-auto bg-white mt-24 md:mt-18 px-4 pt-6">
+    <div class="container shadow-lg mx-auto bg-white mt-24 md:mt-18 px-4 pt-6" >
         <div class=" my-4 w-full ">
 
             <div class="flex flex-col">
                 <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-                   <div class="w-full text-center text-xl"><h1>Found Your Desire</h1></div> 
+                   <div class="w-full text-center font-bold text-2xl "><h1 class="bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] inline-block text-transparent bg-clip-text">Found Your Desire</h1></div> 
                     <form class="" action="/client" method="GET">
                       
 
@@ -101,7 +101,7 @@
                 }, 5000);
             </script>
         @endif
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 mb-4 w-full p-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 mb-4 w-full py-8 px-1">
             @foreach ($events as $event)
                 <div class="relative mx-auto w-full">
                     <a href="#"

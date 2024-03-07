@@ -28,7 +28,7 @@
                     <p class="text-lg lg:text-2xl md:text-xl text-white mb-8">Experience the future of our innovative
                         Events. Get Your Ticket Now.</p>
                     <a href="/client"
-                        class="bg-white  text-[#a91079] hover:bg-[#a91079] hover:text-white py-3 px-8 rounded-full text-lg font-semibold transition duration-300 hover:shadow-lg">
+                        class="bg-white  text-purple-800 hover:bg-indigo-800 hover:text-white py-3 px-8 rounded-full text-lg font-semibold transition duration-300 hover:shadow-lg">
                         Get Started
                     </a>
                 </div>

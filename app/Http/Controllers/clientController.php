@@ -97,4 +97,16 @@ class clientController extends Controller
             return response()->view('errors.404', [], 404);
         }
     }
+    public function ticketsIndex(){
+      $reservations =  reservation::where('status' , '1')->with('event', 'client.user' ,'client' ,'event.categorie')->get();
+      return view('client.clientTickets' , [
+        'reservations' => $reservations,
+      ]);
+    }
+    public function ticket($reserv_id){
+      $reservation =  reservation::where('status' , '1')->where('id' , $reserv_id)->with('event', 'client.user' ,'client','event.categorie')->first();
+      return view('client.ticket' , [
+        'reservation' => $reservation,
+      ]);
+    }
 }

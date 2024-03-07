@@ -72,8 +72,12 @@ Route::middleware(['auth', 'role:client'])->group(function () {
         return view('client.home');
     });
     
+    
+    
     Route::get('/client' , [clientController::class , 'clientIndex']);
     Route::post('/reserve/{id}' , [clientController::class , 'ReserveEvent']);
+    Route::post('/ticket/{id}' , [clientController::class , 'ticket']);
+    Route::get('/MyTickets' , [clientController::class , 'ticketsIndex']);
     
 
 });

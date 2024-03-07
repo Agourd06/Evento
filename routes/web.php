@@ -6,8 +6,9 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\adminReservation;
 use App\Http\Controllers\clientController;
 use App\Http\Controllers\organizerController;
-use App\Http\Controllers\adminReservationController;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Controllers\adminReservationController;
+use App\Http\Controllers\organizerReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,10 +55,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:organizer'])->group(function () {
 
 
-
+    Route::post('/AcceptReservation/{reservation_id}/{event_id}' , [organizerReservationController::class , 'AcceptReservation']);
+    Route::post('/DeclineReservation/{reservation_id}' , [organizerReservationController::class , 'DeclineReservation']);
     Route::post('/createEvent' , [organizerController::class , 'createEvent']);
     Route::get('/organizer' , [organizerController::class , 'organizerIndex']);
-    
+    Route::get('/reservationAccept' , [organizerReservationController::class , 'CheckReservation']);
+ 
+
 
 });
 
@@ -74,9 +78,6 @@ Route::middleware(['auth', 'role:client'])->group(function () {
 
 });
 
-// Route::get('/errorPage', function () {
-//     return view('errorPage');
-// });
 
 
 

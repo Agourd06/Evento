@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\event;
 use App\Models\categorie;
 use App\Models\organizer;
+use App\Models\reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,10 +15,12 @@ class organizerController extends Controller
     {
         $categories = categorie::where('status', '0')->get();
         $events = event::with('categorie')->get();
+        $resevationNotAcceptedCount = reservation::where('status' , '0')->count('id');
 
         return view('organizer.organizer', [
             'categories' => $categories,
             'events' => $events,
+            'resevationNotAcceptedCount' => $resevationNotAcceptedCount,
         ]);
     }
     public function createEvent(Request $request)

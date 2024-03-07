@@ -9,6 +9,7 @@ class reservation extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'status',
         'event_id',
         'client_id',
     ];

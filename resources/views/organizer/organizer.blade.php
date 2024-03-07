@@ -12,7 +12,8 @@
 </head>
 
 <body>
-  
+    @include('layouts/organizerNav')
+
     <div class="container shadow-lg mx-auto bg-white mt-24 md:mt-18 ">
 
         @if (session('success'))
@@ -38,18 +39,18 @@
         </div>
         <div class="w-[85%] mx-auto flex justify-end ">
 
-            <div class="relative inline-flex mt-4   group h-12" onclick="toggleModal('newEventModal')">
+            <div class="relative inline-flex mt-4 md:mb-0 mb-2  group h-9 md:h-12" onclick="toggleModal('newEventModal')">
                 <div
                     class="absolute transitiona-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt">
                 </div>
                 <button type="button" title="Get quote now"
-                    class="relative flex gap-4 items-center animate-bounce  justify-center px-6 py-4 text-sm font-semibold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                    class="relative flex gap-4 items-center animate-bounce  justify-center px-2 md:px-6 py-1 md:py-4 md:text-sm text-[10px] font-semibold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
                     role="button"> New Event <i class='bx bx-plus' style='color:#ffffff'></i>
 
                 </button>
             </div>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 mb-4 w-full px-12 pb-14">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 mb-4 w-full md:px-12 px-4 pb-14">
             @foreach ($events as $event)
                 <div class="relative mx-auto w-full">
                     <a href="#"

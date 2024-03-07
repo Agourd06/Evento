@@ -27,10 +27,12 @@ class clientController extends Controller
                 if ($event->acceptation === 'manually') {
                     reservation::create(
                         [
+                            'status' => '0',
                             'event_id' => $eventId,
                             'client_id' => $clientId,
                         ]
                     );
+                  
                     return redirect()->back()->with('success', 'Request Sent successfully');
                 } else {
                     reservation::create(
@@ -41,6 +43,9 @@ class clientController extends Controller
                         ]
 
                     );
+                    event::where('id',$eventId)->update([
+                        'setsLeft' => (int)$event->setsLeft - 1,
+                    ]);
                     return redirect()->back()->with('success', 'Reserved');
                 }
             } else {

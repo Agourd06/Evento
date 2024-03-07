@@ -21,8 +21,8 @@
                 <a class="inline-block py-2 px-4 text-white no-underline" href="/organizer">Events</a>
             </li>
             <li class="mr-3 relative">
-                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#">
-                    <span class="absolute top-3 left-1 -mt-1 -mr-2 w-3 h-3 bg-red-600 text-white text-[10px] rounded-full flex items-center justify-center">1</span>
+                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="/reservationAccept">
+                    <span class="absolute top-3 left-1 -mt-1 -mr-2 w-3 h-3 bg-red-600 text-white text-[10px] rounded-full flex items-center justify-center">{{$resevationNotAcceptedCount}}</span>
                     Reservations
                 </a>
             </li>

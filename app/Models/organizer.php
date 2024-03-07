@@ -15,6 +15,7 @@ class organizer extends Model
         
         'description',
         'user_id',
+        
     ];
     public function event()
     {

@@ -43,55 +43,63 @@
                     </script>
                 @endif
                 {{-- @foreach ($reclamations as $reclamation) --}}
-                <div class="mb-8 border border-gray-100 border-solid ">
-                    <div class=" w-full py-4  rounded-md shadow-lg">
-                        <div class=" ">
-                            <div class="text-left font-semibold text-center">
-                                <h1>Title : Administrator,</h1>
+                @foreach ($events as $event)
+                    <div class="mb-8 border border-gray-100 border-solid ">
+                        <div class=" w-full pb-4  rounded-md shadow-lg">
+                            <div class=" ">
+                                <div
+                                    class=" text-white text-xl font-semibold text-center duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E]">
+                                    <h1 class=""> {{ $event->title }}</h1>
+                                </div>
+                                <img src="{{ asset('storage/image/' . $event->image) }}" alt="" class="w-full max-h-48">
                             </div>
-                            <img src="https://c0.wallpaperflare.com/preview/285/1009/176/concery-wallpaper-festival-party.jpg"
-                                alt="" class="w-full">
+
+                            <div class="grid grid-cols-2 grid-rows-2 gap-4 mt-8 px-4">
+                                <p class="inline-flex flex- text-sm  xl:flex-row xl:items-center text-gray-800">
+                                    <i class='bx bx-time-five'></i>
+                                    <span class="mt-2 xl:mt-0 ml-2">
+                                        {{ str_replace('T', ' ', $event->date) }}
+                                    </span>
+                                </p>
+                                <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
+                                    <i class='bx bx-category-alt'></i>
+                                    <span class="mt-2 xl:mt-0 ml-2">
+                                        {{ $event->categorie->title }}
+                                    </span>
+                                </p>
+                                <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
+                                    <i class='bx bx-purchase-tag-alt bx-rotate-90'></i>
+                                    <span class="mt-2 xl:mt-0 ml-2">
+                                        {{ $event->price }}<i class='bx bx-dollar text-sm'></i>
+                                    </span>
+                                </p>
+                                <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
+                                    <i class='bx bx-chair'></i>
+                                    <span class="mt-2 xl:mt-0 ml-2">
+                                        {{ $event->sets }}
+
+                                    </span>
+                                </p>
+                            </div>
                         </div>
 
-                        <div class="grid grid-cols-2 grid-rows-2 gap-4 mt-8 px-4">
-                            <p class="inline-flex flex-col  xl:flex-row xl:items-center text-gray-800">
-                                <i class='bx bx-time-five'></i>
-                                <span class="mt-2 xl:mt-0 ml-2">
-                                    2000-06-18
-                                </span>
-                            </p>
-                            <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                                <i class='bx bx-category-alt'></i>
-                                <span class="mt-2 xl:mt-0 ml-2">
-                                    marriage
-                                </span>
-                            </p>
-                            <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                                <i class='bx bx-purchase-tag-alt bx-rotate-90'></i>
-                                <span class="mt-2 xl:mt-0 ml-2">
-                                    200<i class='bx bx-dollar text-sm'></i>
-                                </span>
-                            </p>
-                            <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                                <i class='bx bx-chair'></i>
-                                <span class="mt-2 xl:mt-0 ml-2">
-                                    200
+                        <div class="flex ">
 
-                                </span>
-                            </p>
+                            <form action="/AcceptEvents" method="post" class="w-full">
+                                @csrf
+                                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                <button type="submit"
+                                    class=" w-full  px-8 bg-green-800 hover:bg-green-400 text-white shadow-xl">Accept</button>
+                            </form>
+                            <form action="/DeclineEvents" method="post" class="w-full">
+                                @csrf
+                                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                <button type="submit"
+                                    class=" w-full  px-8 bg-red-800 hover:bg-red-400 text-white shadow-xl">Cancel</button>
+                            </form>
                         </div>
                     </div>
-                    <form action="/deletRepport" method="post" class="flex">
-                        @csrf
-                        <input type="hidden" name="repport_id" value="">
-                        <button type="submit"
-                            class=" w-full  px-8 bg-green-800 hover:bg-green-400 text-white shadow-xl">Accept</button>
-                        <button type="submit"
-                            class=" w-full  px-8 bg-red-800 hover:bg-red-400 text-white shadow-xl">Cancel</button>
-                    </form>
-
-                </div>
-                {{-- @endforeach --}}
+                @endforeach
 
             </div>
             {{-- @else --}}

@@ -14,16 +14,19 @@ class event extends Model
         'date',
         'location',
         'sets',
+        'setsLeft',
+        'price',
         'organizer_id' ,
+        'categorie_id' ,
          'acceptation',
          'image',
     ];
 
 
 
-    public function category()
+    public function categorie()
     {
-        return $this->belongsTo(categorie::class);
+        return $this->belongsTo(categorie::class , 'categorie_id');
     }
     public function reservation()
     {

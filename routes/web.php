@@ -3,7 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\adminController;
+use App\Http\Controllers\adminReservation;
+use App\Http\Controllers\clientController;
 use App\Http\Controllers\organizerController;
+use App\Http\Controllers\adminReservationController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,20 +22,16 @@ use App\Http\Controllers\organizerController;
 
 Route::get('/', function () {
     return view('login');
-})->name('login');
-Route::get('/client', function () {
-    return view('client.client');
-});
+})->name('login')->middleware(RedirectIfAuthenticated::class);
 
-Route::get('/eventsAccept', function () {
-    return view('admin.eventsAccept');
-});
-Route::get('/organizer', function () {
-    return view('organizer.organizer');
-});
+
+// Route::get('/eventsAccept', function () {
+//     return view('admin.eventsAccept');
+// });
+
 Route::get('/registration', function () {
     return view('register');
-});
+})->middleware(RedirectIfAuthenticated::class);
 
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -45,6 +45,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/Createcategory' , [adminController::class , 'createCategory']);
     Route::post('/updateCategorie' , [adminController::class , 'updateCategorie']);
     Route::post('/archiveUser' , [adminController::class , 'archiveUser']);
+    Route::post('/AcceptEvents' , [adminReservationController::class , 'AcceptEvents']);
+    Route::post('/DeclineEvents' , [adminReservationController::class , 'DeclineEvents']);
+    Route::get('/eventsAccept' , [adminReservationController::class , 'CheckEvents']);
     
 
 });
@@ -53,15 +56,31 @@ Route::middleware(['auth', 'role:organizer'])->group(function () {
 
 
     Route::post('/createEvent' , [organizerController::class , 'createEvent']);
+    Route::get('/organizer' , [organizerController::class , 'organizerIndex']);
     
 
 });
 
+Route::middleware(['auth', 'role:client'])->group(function () {
+
+
+    Route::get('/home', function () {
+        return view('client.home');
+    });
+    
+    Route::get('/client' , [clientController::class , 'clientIndex']);
+    Route::post('/reserve/{id}' , [clientController::class , 'ReserveEvent']);
+    
+
+});
+
+// Route::get('/errorPage', function () {
+//     return view('errorPage');
+// });
 
 
 
 
-
-Route::post('/register', [authController::class , 'store']);
-Route::post('/login', [authController::class , 'login']);
+Route::post('/register', [authController::class , 'store'])->middleware(RedirectIfAuthenticated::class);
+Route::post('/login', [authController::class , 'login'])->middleware(RedirectIfAuthenticated::class);
 Route::get('/logout', [authController::class , 'logout']);

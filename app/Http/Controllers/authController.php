@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\admin;
 use App\Models\client;
 use App\Models\organizer;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -84,7 +85,7 @@ class authController extends Controller
             ]);
             auth()->login($user);
 
-            return redirect('/client');
+            return redirect('/home');
         } else if ($userData['role'] == 'organizer') {
             // Assign user_id create organizer
 
@@ -101,6 +102,7 @@ class authController extends Controller
 
     public function login(Request $request)
     {
+        try {
         $data = $request->validate([
             'email' => ['required', 'email'],
             'password' => 'required',
@@ -120,7 +122,7 @@ class authController extends Controller
             }
     
             if ($authenticatedUser->client) {
-                return redirect('/client');
+                return redirect('/home');
             }
     
             if ($authenticatedUser->admin) {
@@ -131,6 +133,9 @@ class authController extends Controller
                 ->withErrors(['login' => 'Invalid credentials'])
                 ->withInput();
         }
+    }catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return response()->view('errors.404', [], 404);
+    }
     }
     
 

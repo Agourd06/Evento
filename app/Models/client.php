@@ -14,4 +14,8 @@ class client extends Model
     protected $fillable = [
         'user_id',
     ];
+    public function reservation()
+    {
+        return $this->hasMany(reservation::class);
+    }
 }

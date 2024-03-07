@@ -4,17 +4,59 @@ namespace App\Http\Controllers;
 
 use App\Models\event;
 use App\Models\client;
+use App\Models\categorie;
 use App\Models\reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class clientController extends Controller
 {
-    public function clientIndex()
+    public function clientIndex(Request $request)
     {
-        $events = event::where('status', '1')->with('categorie')->get();
+        $query = event::where('status', '1')->with('categorie');
+
+        if ($request->input('filterTitle')) {
+
+            $query = $query->where('title' , 'like', '%'.$request->input('filterTitle').'%');
+        }
+        if ($request->input('filterCategorie')) {
+            $query = $query->where('categorie_id', $request->input('filterCategorie'));
+        }
+        if ($request->input('filterPrice') !== null && $request->input('filterPrice') === '100/500') {
+
+            $query = $query->where(function ($query) {
+                $query->whereRaw('ROUND(price) >= ?', [100])
+                    ->whereRaw('ROUND(price) <= ?', [500]);
+            });
+        }
+        if ($request->input('filterPrice') !== null && $request->input('filterPrice') === '500/1000') {
+
+            $query = $query->where(function ($query) {
+                $query->whereRaw('ROUND(price) >= ?', [500])
+                    ->whereRaw('ROUND(price) <= ?', [1000]);
+            });
+        }
+        if ($request->input('filterPrice') !== null && $request->input('filterPrice') === '1000/1500') {
+
+            $query = $query->where(function ($query) {
+                $query->whereRaw('ROUND(price) >= ?', [1000])
+                    ->whereRaw('ROUND(price) <= ?', [1500]);
+            });
+        }
+        if ($request->input('filterPrice') !== null && $request->input('filterPrice') === '1500/2000') {
+
+            $query = $query->where(function ($query) {
+                $query->whereRaw('ROUND(price) >= ?', [1500])
+                    ->whereRaw('ROUND(price) <= ?', [2000]);
+            });
+        }
+      
+       
+        $events = $query->get();
+        $categories = categorie::all();
         return view('client.client', [
             'events' => $events,
+            'categories' => $categories,
         ]);
     }
 
@@ -32,7 +74,7 @@ class clientController extends Controller
                             'client_id' => $clientId,
                         ]
                     );
-                  
+
                     return redirect()->back()->with('success', 'Request Sent successfully');
                 } else {
                     reservation::create(
@@ -43,7 +85,7 @@ class clientController extends Controller
                         ]
 
                     );
-                    event::where('id',$eventId)->update([
+                    event::where('id', $eventId)->update([
                         'setsLeft' => (int)$event->setsLeft - 1,
                     ]);
                     return redirect()->back()->with('success', 'Reserved');

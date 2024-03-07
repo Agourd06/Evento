@@ -24,9 +24,11 @@
                 <a class="inline-block text-gray-300 no-underline hover:text-gray-200 hover:text-underline py-2 px-4"
                     href="/client">Events</a>
             </li>
-            <li class="mr-3">
-                <a class="inline-block text-gray-300 no-underline hover:text-gray-200 hover:text-underline py-2 px-4"
-                    href="#">Tickets</a>
+            <li class="mr-3 relative">
+                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="/reservationAccept">
+                    <span class="absolute top-3 left-1 -mt-1 -mr-2 w-3 h-3 bg-red-600 text-white text-[10px] rounded-full flex items-center justify-center">1</span>
+                    Tickets
+                </a>
             </li>
             <li class="mr-3">
                 <a class="inline-block text-red-700 no-underline hover:text-gray-200 hover:text-underline py-2 px-4"

@@ -70,7 +70,6 @@
                 </div>
 
                 <div class="flex ">
-
                     <form action="/AcceptReservation/{{$reservation->id}}/{{$reservation->event->id}}" method="post" class="w-full">
                         @csrf
                         <button type="submit"

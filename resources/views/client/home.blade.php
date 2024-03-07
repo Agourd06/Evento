@@ -13,7 +13,7 @@
 
 <body>
     @include('layouts/clientNav')
-    <div class="container shadow-lg mx-auto bg-white mt-20  md:mt-18">
+    <div class="container shadow-lg mx-auto bg-white mt-20 w-full md:mt-18">
 
         <div class="relative w-full ">
             <video class="w-full h-screen object-cover " autoplay loop muted>
@@ -22,13 +22,13 @@
             </video>
 
             <div
-                class="bg-gradient-to-r from-purple-800/30 via-indigo-800/30 to-purple-800/30 absolute w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-20 px-6 font-[sans-serif]">
-                <div class="container mx-auto text-center">
+                class="h-full bg-gradient-to-r from-purple-800/10 via-indigo-800/30 to-purple-800/10 absolute w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-20 px-6 font-[sans-serif]">
+                <div class="container mx-auto text-center absolute top-1/3">
                     <h2 class="lg:text-6xl md:text-4xl text-2xl font-extrabold text-white mb-6">Join Us Today</h2>
                     <p class="text-lg lg:text-2xl md:text-xl text-white mb-8">Experience the future of our innovative
                         Events. Get Your Ticket Now.</p>
                     <a href="/client"
-                        class="bg-white text-[#a91079] hover:bg-[#a91079] hover:text-white py-3 px-8 rounded-full text-lg font-semibold transition duration-300 hover:shadow-lg">
+                        class="bg-white  text-[#a91079] hover:bg-[#a91079] hover:text-white py-3 px-8 rounded-full text-lg font-semibold transition duration-300 hover:shadow-lg">
                         Get Started
                     </a>
                 </div>

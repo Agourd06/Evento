@@ -190,7 +190,6 @@
                     </script>
                     <form action="/updateEvent/{{ $eventData->id }}" method="POST" id="booking"
                         enctype="multipart/form-data">
-                        @method('PUT')
                     @else
                         <form action="/createEvent" method="POST" id="booking" enctype="multipart/form-data">
                 @endif

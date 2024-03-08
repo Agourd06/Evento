@@ -8,6 +8,7 @@ use App\Models\organizer;
 use App\Models\reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PHPUnit\Util\Xml\SuccessfulSchemaDetectionResult;
 
 class organizerController extends Controller
 {
@@ -78,7 +79,9 @@ class organizerController extends Controller
         event::create($eventData);
         return redirect()->back()->with('success', 'Request Sent Succefully');;
     }
-    public function update(event $event , Request $request ){
+
+    public function updateEvent($event_id, Request $request)
+    {
 
         $eventData = $request->validate(
             [
@@ -108,13 +111,31 @@ class organizerController extends Controller
                 'image.max' => 'The image must not be larger than 2048 kilobytes.',
             ]
         );
+        
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $pictureName = time() . '.' . $file->extension();
             $file->storeAs('public/image', $pictureName);
             $eventData['image'] = $pictureName;
         }
-        $event->update($eventData);
+        event::where('id', $event_id)->update([
+            'title' => $eventData['title'],
+            'location' => $eventData['location'],
+            'price' => $eventData['price'],
+            'categorie_id' => $eventData['categorie_id'],
+            'date' => $eventData['date'],
+            'acceptation' => $eventData['acceptation'],
+            'description' => $eventData['description'],
+            'sets' => $eventData['sets'],
+            'image' => $eventData['image'],
+        ]);
+        return redirect('/organizer')->with('success', 'Event updated Successfully');
+    }
+    public function DeleteEvents($event_id){
+
+        event::where('id' , $event_id)->delete();
+        
+        return redirect('/organizer')->with('success', 'Event deleted Successfully');
 
     }
 }

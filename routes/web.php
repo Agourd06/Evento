@@ -59,6 +59,8 @@ Route::middleware(['auth', 'role:organizer'])->group(function () {
     Route::post('/DeclineReservation/{reservation_id}' , [organizerReservationController::class , 'DeclineReservation']);
     Route::post('/createEvent' , [organizerController::class , 'createEvent']);
     Route::post('/EditEvents' , [organizerController::class , 'organizerIndex']);
+    Route::match(['get', 'post'], '/updateEvent/{event}' , [organizerController::class , 'updateEvent']);
+    Route::match(['get', 'post'], '/DeleteEvents/{event}' , [organizerController::class , 'DeleteEvents']);
     Route::get('/organizer' , [organizerController::class , 'organizerIndex']);
     Route::get('/reservationAccept' , [organizerReservationController::class , 'CheckReservation']);
  

@@ -8,6 +8,7 @@ use App\Models\client;
 use App\Models\organizer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class authController extends Controller
 {
@@ -103,41 +104,48 @@ class authController extends Controller
     public function login(Request $request)
     {
         try {
-        $data = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => 'required',
-            'rememberMe' => 'boolean', 
-        ], [
-            'email.required' => 'Email is required for login',
-            'password.required' => 'Password is required for login'
-        ]);
-    
-        $rememberMe = $request->has('rememberMe') && $request->input('rememberMe');
-    
-        if (auth()->attempt(['email' => $data['email'], 'password' => $data['password']], $rememberMe)) {
-            $authenticatedUser = auth()->user();
-    
-            if ($authenticatedUser->organizer) {
-                return redirect('/organizer');
+            $data = $request->validate([
+                'email' => ['required', 'email'],
+                'password' => 'required',
+                'rememberMe' => 'boolean',
+            ], [
+                'email.required' => 'Email is required for login',
+                'password.required' => 'Password is required for login'
+            ]);
+
+            $userBanned = User::withTrashed()->where('email', $request->email)->first();
+            if ($userBanned->trashed()) {
+                return redirect('/')->with('error', 'Your account has been banned');
             }
-    
-            if ($authenticatedUser->client) {
-                return redirect('/home');
+            $rememberMe = $request->has('rememberMe') && $request->input('rememberMe');
+
+            if (auth()->attempt(['email' => $data['email'], 'password' => $data['password']], $rememberMe)) {
+                $authenticatedUser = auth()->user();
+
+
+
+                if ($authenticatedUser->organizer) {
+                    return redirect('/organizer');
+                }
+
+                if ($authenticatedUser->client) {
+                    return redirect('/home');
+                }
+
+                if ($authenticatedUser->admin) {
+                    return redirect('/admin');
+                }
+            } else {
+                return redirect('/')
+                    ->withErrors(['login' => 'Invalid credentials'])
+                    ->withInput();
             }
-    
-            if ($authenticatedUser->admin) {
-                return redirect('/admin');
-            }
-        } else {
-            return redirect('/')
-                ->withErrors(['login' => 'Invalid credentials'])
-                ->withInput();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->view('errors.404', [], 404);
         }
-    }catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        return response()->view('errors.404', [], 404);
     }
-    }
-    
+
+
 
     public function logout()
     {

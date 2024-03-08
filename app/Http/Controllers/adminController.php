@@ -7,6 +7,7 @@ use App\Models\client;
 use App\Models\categorie;
 use App\Models\organizer;
 use App\Models\reservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -18,16 +19,17 @@ class adminController extends Controller
     public function createCategory(Request $request)
     {
 
-        $request->validate([
-            'name' => ['required' , Rule::unique('categories' , 'title')]
-        ]
-        ,
+        $request->validate(
+            [
+                'name' => ['required', Rule::unique('categories', 'title')]
+            ],
 
-        [
+            [
 
-            'name.unique' => 'Title Categorie Already existe',
-            'name.required' => 'Title Categorie is required',
-        ]);
+                'name.unique' => 'Title Categorie Already existe',
+                'name.required' => 'Title Categorie is required',
+            ]
+        );
         categorie::create([
 
             'title' => $request->name,
@@ -82,21 +84,50 @@ class adminController extends Controller
             'categorieEdit' => $categorieEdit,
         ]);
     }
-        // ------------------------------Users----------------------------
-        public function managUsers(){
-            $clients = client::with('user')->get();
-            $organizers = organizer::with('user')->get();
-            return view('admin.managUsers' , [
-                'clients' => $clients,
-                'organizers' => $organizers,
-            ]);
+    // ------------------------------Users----------------------------
+    public function managUsers()
+    {
+        $clients = client::with('user')->get();
+        $organizers = organizer::with('user')->get();
+        return view('admin.managUsers', [
+            'clients' => $clients,
+            'organizers' => $organizers,
+        ]);
+    }
+    //softe delete users
+    // public function archiveUser(Request $request)
+    // {
+
+    //     client::where('id', $request->clientId)->update(['status' => $request->archiveUs]);
+    //     organizer::where('id', $request->organizerId)->update(['status' => $request->archiveUs]);
+    //     return redirect()->back();
+    // }
+    public function archiveUser($id)
+    {
+        $organizer =  organizer::where('user_id', $id)->value('id');
+        $events = event::where('organizer_id', $organizer)->get();
+        $client =  client::where('user_id', $id)->value('id');
+        $user = User::find($id);
+
+        if ($organizer) {
+            $user->delete();
+            organizer::where('user_id', $id)->delete();
+            event::where('organizer_id', $organizer)->delete();
+            foreach ($events as $event) {
+
+                reservation::where('event_id', $event->id)->delete();
+            }
+            return redirect()->back()->with('success', 'User Banned successfully');
         }
-//softe delete users
-        public function archiveUser(Request $request)
-        {
-    
-            client::where('id', $request->clientId)->update(['status' => $request->archiveUs]);
-            organizer::where('id', $request->organizerId)->update(['status' => $request->archiveUs]);
-            return redirect()->back();
+        if ($client) {
+            $user->delete();
+            client::where('user_id', $id)->delete();
+            reservation::where('client_id', $client)->delete();
+            return redirect()->back()->with('success', 'User Banned successfully');
         }
+
+
+
+        return redirect()->back()->with('error', 'User not found');
+    }
 }

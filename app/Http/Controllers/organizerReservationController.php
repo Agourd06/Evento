@@ -3,20 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\event;
+use App\Models\organizer;
 use App\Models\reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class organizerReservationController extends Controller
 {
     public function CheckReservation()
     {
-
-        $reservations = reservation::where('status', '0')
-            ->with('client.user', 'event', 'client')
-            ->get();
-            $resevationNotAcceptedCount = reservation::where('status' , '0')->count('id');
+        $organizerId = organizer::where('user_id', Auth::id())->value('id');
+        
+        $reservations = Reservation::with('client.user', 'event', 'client')
+        ->where('status', '0')
+        ->whereHas('event', function ($query) use ($organizerId) {
+            $query->where('organizer_id', $organizerId);
+        })
+        ->get();
+        $resevationNotAcceptedCount = Reservation::where('status', '0')
+    ->whereHas('event', function ($query) use ($organizerId) {
+        $query->where('organizer_id', $organizerId);
+    })
+    ->count();
 
         return view('organizer.reservation', [
+
+
+
+
+
             'reservations' => $reservations,
             'resevationNotAcceptedCount' => $resevationNotAcceptedCount,
 
@@ -34,7 +49,7 @@ class organizerReservationController extends Controller
         ]);
         return redirect()->back()->with('success', 'Reservation Accepted Succefully');
     }
-    public function DeclineReservation($reservation_id, $event_id)
+    public function DeclineReservation($reservation_id)
     {
 
         reservation::where('id', $reservation_id)->update([

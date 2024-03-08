@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('setsLeft');
             $table->string('price');
             $table->string('image');
+            $table->softDeletes();
+
             $table->foreignId('organizer_id')->constrained('organizers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('categorie_id')->constrained('categories')->cascadeOnDelete()->cascadeOnUpdate();
             $table->enum('acceptation', ['automatically','manually'])->default('automatically');

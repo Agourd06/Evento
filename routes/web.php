@@ -45,8 +45,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/editData', [adminController::class, 'DashBoardAdmin']);
     Route::post('/Createcategory' , [adminController::class , 'createCategory']);
     Route::post('/updateCategorie' , [adminController::class , 'updateCategorie']);
-    Route::post('/archiveUser' , [adminController::class , 'archiveUser']);
-    Route::post('/AcceptEvents' , [adminReservationController::class , 'AcceptEvents']);
+    Route::delete('/archiveUser/{id}/', [AdminController::class, 'archiveUser']); 
+       Route::post('/AcceptEvents' , [adminReservationController::class , 'AcceptEvents']);
     Route::post('/DeclineEvents' , [adminReservationController::class , 'DeclineEvents']);
     Route::get('/eventsAccept' , [adminReservationController::class , 'CheckEvents']);
     
@@ -58,6 +58,7 @@ Route::middleware(['auth', 'role:organizer'])->group(function () {
     Route::post('/AcceptReservation/{reservation_id}/{event_id}' , [organizerReservationController::class , 'AcceptReservation']);
     Route::post('/DeclineReservation/{reservation_id}' , [organizerReservationController::class , 'DeclineReservation']);
     Route::post('/createEvent' , [organizerController::class , 'createEvent']);
+    Route::post('/EditEvents' , [organizerController::class , 'organizerIndex']);
     Route::get('/organizer' , [organizerController::class , 'organizerIndex']);
     Route::get('/reservationAccept' , [organizerReservationController::class , 'CheckReservation']);
  

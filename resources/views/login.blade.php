@@ -5,14 +5,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     @vite('resources/css/app.css')
 
     <title>Document</title>
 </head>
 
 <body>
+
+
     <div class="font-[sans-serif] bg-gradient-to-r from-[#350d36] via-purple-800 to-purple-600 text-[#333]">
         <div class="min-h-screen flex fle-col items-center justify-center lg:p-6 p-4">
+            @if (session('error'))
+                <div id="error-message"
+                    class="fixed inset-0 z-40 min-h-full overflow-y-auto overflow-x-hidden transition flex items-center">
+                    <!-- overlay -->
+
+                    <div aria-hidden="true" class="fixed inset-0 w-full h-full bg-black/50 cursor-pointer">
+                    </div>
+                    
+                    <!-- Modal -->
+                    <div class="relative w-full cursor-pointer pointer-events-none transition my-auto p-4">
+                        
+                        <div
+                            class="w-full py-2 bg-white cursor-default pointer-events-auto dark:bg-gray-800 relative rounded-xl mx-auto max-w-sm">
+                            <div class="w-full flex justify-center"><i class='bx bxs-info-circle text-4xl'
+                                style='color:#d13b3b'></i></div>
+                            <div class="space-y-2 p-2">
+                                <div class="p-4 space-y-2 text-center dark:text-white">
+
+
+                                    <p class="text-gray-500">
+                                        Sorry To Inform You That Your Account has been suspended
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <div aria-hidden="true" class="border-t dark:border-gray-700 px-2"></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    setTimeout(function() {
+                        document.getElementById('error-message').style.display = 'none';
+                    }, 5000);
+                </script>
+            @endif
             <div class="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
                 <div class="max-md:text-center">
                     <a href="javascript:void(0)"><img src="{{ asset('storage/image/' . 'logo.png') }}" alt="logo"
@@ -49,7 +93,7 @@
                     </div>
                     <div class="flex justify-between items-center">
                         <div class="flex items-center">
-                            <input id="remember-me" name="rememberMe" type="checkbox" value="{{true}}"
+                            <input id="remember-me" name="rememberMe" type="checkbox" value="{{ true }}"
                                 class="h-4 w-4 shrink-0 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
                             <label for="remember-me" class="ml-3 block text-sm">
                                 Remember me

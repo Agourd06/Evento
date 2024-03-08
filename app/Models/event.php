@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class event extends Model
 {
-    use HasFactory;
+    use HasFactory , SoftDeletes;
     protected $fillable = [
         'title',
         'description',
@@ -28,8 +29,8 @@ class event extends Model
     {
         return $this->belongsTo(categorie::class , 'categorie_id');
     }
-    public function reservation()
+    public function reservations()
     {
-        return $this->hasMany(reservation::class);
+        return $this->hasMany(reservation::class, 'event_id');
     }
 }

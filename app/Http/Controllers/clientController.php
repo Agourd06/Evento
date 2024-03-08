@@ -17,7 +17,7 @@ class clientController extends Controller
 
         if ($request->input('filterTitle')) {
 
-            $query = $query->where('title' , 'like', '%'.$request->input('filterTitle').'%');
+            $query = $query->where('title', 'like', '%' . $request->input('filterTitle') . '%');
         }
         if ($request->input('filterCategorie')) {
             $query = $query->where('categorie_id', $request->input('filterCategorie'));
@@ -50,9 +50,9 @@ class clientController extends Controller
                     ->whereRaw('ROUND(price) <= ?', [2000]);
             });
         }
-      
-       
-        $events = $query->get();
+
+
+        $events = $query->paginate(2);
         $categories = categorie::all();
         return view('client.client', [
             'events' => $events,
@@ -97,16 +97,19 @@ class clientController extends Controller
             return response()->view('errors.404', [], 404);
         }
     }
-    public function ticketsIndex(){
-      $reservations =  reservation::where('status' , '1')->with('event', 'client.user' ,'client' ,'event.categorie')->get();
-      return view('client.clientTickets' , [
-        'reservations' => $reservations,
-      ]);
+    public function ticketsIndex()
+    {
+        $clientId = client::where('user_id', Auth::id())->value('id');
+        $reservations =  reservation::where('status', '1')->where('client_id', $clientId)->with('event', 'client.user', 'client', 'event.categorie')->get();
+        return view('client.clientTickets', [
+            'reservations' => $reservations,
+        ]);
     }
-    public function ticket($reserv_id){
-      $reservation =  reservation::where('status' , '1')->where('id' , $reserv_id)->with('event', 'client.user' ,'client','event.categorie')->first();
-      return view('client.ticket' , [
-        'reservation' => $reservation,
-      ]);
+    public function ticket($reserv_id)
+    {
+        $reservation =  reservation::where('status', '1')->where('id', $reserv_id)->with('event', 'client.user', 'client', 'event.categorie')->first();
+        return view('client.ticket', [
+            'reservation' => $reservation,
+        ]);
     }
 }

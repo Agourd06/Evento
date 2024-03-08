@@ -25,43 +25,47 @@
             </h1>
         </div>
         <div class="grid grid-cols-3 gap-4 p-10">
-            @foreach ($reservations as $reservation)
-                <div class="w-full my-6">
-                    <div class="w-20 h-5 text-center bg-red-500 text-sm text-white rounded-tl-lg">
-                        <p>Cancel</p>
-                    </div>
-                    <div class="bg-white shadow-lg  rounded-br-lg overflow-hidden  grid grid-cols-[auto,1fr]">
-                        <div class="bg-gray-100 px-5 py-2 grid items-end justify-center __col h-full bg-cover"
-                            style='background-image: url("{{ asset('storage/image/' . $reservation->event->image) }}");'>
-                            <form action="/ticket/{{ $reservation->id }}" method="POST"> @csrf <button
-                                type="submit" class="text-white font-medium hover:text-purple-800">Get Ticket</button></form>
+            @if ($reservations->count() > 0)
+                @foreach ($reservations as $reservation)
+                    <div class="w-full my-6">
+                        <div class="w-20 h-5 text-center bg-red-500 text-sm text-white rounded-tl-lg">
+                            <p>Cancel</p>
                         </div>
-                        <div class="p-6">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ $reservation->event->title }}</h2>
-                            <div class="grid grid-cols-2 mb-2">
-                                <p class="text-gray-600 flex items-center">
-                                    <i class='bx bx-time-five mr-1'></i> {{ $reservation->event->date }}
-                                </p>
-                                <p class="text-gray-600 flex items-center">
-                                    <i class='bx bx-purchase-tag-alt bx-rotate-90 mr-1 mt-1'></i>
-                                    {{ $reservation->event->price }}<i class='bx bx-dollar text-sm'></i>
-                                </p>
+                        <div class="bg-white shadow-lg  rounded-br-lg overflow-hidden  grid grid-cols-[auto,1fr]">
+                            <div class="bg-gray-100 px-5 py-2 grid items-end justify-center __col h-full bg-cover"
+                                style='background-image: url("{{ asset('storage/image/' . $reservation->event->image) }}");'>
+                                <form action="/ticket/{{ $reservation->id }}" method="POST"> @csrf <button
+                                        type="submit" class="text-white font-medium hover:text-purple-800">Get
+                                        Ticket</button></form>
+                            </div>
+                            <div class="p-6">
+                                <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ $reservation->event->title }}
+                                </h2>
+                                <div class="grid grid-cols-2 mb-2">
+                                    <p class="text-gray-600 flex items-center">
+                                        <i class='bx bx-time-five mr-1'></i> {{ $reservation->event->date }}
+                                    </p>
+                                    <p class="text-gray-600 flex items-center">
+                                        <i class='bx bx-purchase-tag-alt bx-rotate-90 mr-1 mt-1'></i>
+                                        {{ $reservation->event->price }}<i class='bx bx-dollar text-sm'></i>
+                                    </p>
+
+                                </div>
+                                <p class="text-sm">Reservation Accepted You Can Have Your Ticket Now</p>
 
                             </div>
-                            <p class="text-sm">Reservation Accepted You Can Have Your Ticket Now</p>
-
                         </div>
                     </div>
-                </div>
-            @endforeach
-
-
-
-
-
-
-
+                @endforeach
+            @else
+            
+            
+            
         </div>
+        <div class="w-full text-2xl font-semibold pb-8 text-center">
+            <h1>No Ticket Found</h1>
+        </div>
+    @endif
     </div>
 </body>
 

@@ -228,7 +228,19 @@
                     <div id="eventData{{ $event->id }}"
                         class="h-screen fixed top-0 right-0 left-0 bottom-0 bg-black/20 hidden z-50">
                         <div class="flex h-screen items-center justify-center px-10">
+                          
                             <div class="w-full sm:w-1/2  bg-white shadow-xl rounded-3xl">
+                                <div class=" flex justify-center w-full mb-3">
+                                    <div
+                                        class="flex bg-white w-full justify-center px-4 py-1 space-x-5 rounded-lg overflow-hidden shadow">
+                                        <p class="flex items-center w-full justify-center text-4xl font-medium text-gray-800">
+                                            <i class='bx bx-chair text-4xl'></i>
+                                            {{ $event->setsLeft }} left
+                                        </p>
+    
+    
+                                    </div>
+                                </div>
                                 <div class="mt-10 flex flex-col items-center mb-5 ">
                                     <img src="{{ asset('storage/image/' . $event->image) }}"
                                         class="rounded-full h-40 w-40" alt="" />
